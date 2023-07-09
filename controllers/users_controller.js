@@ -1,11 +1,28 @@
 const User = require('../models/user');
+
 //create controller for the profile
 module.exports.profile = function (req,res){
-     
-      res.render('profile',{         
-            title : "Codeial | profile"
-      });
+    
+     if(req.cookies.user_id){
+        
+        User.findById(req.cookies.user_id)
+        .then((user)=>{
+            
+              return res.render('profile',{
+                   title : 'user-profile',
+                   user : user
+              })
+        })
+        .catch((err)=>{
+              return res.redirect('users/sign-in');
+        });   
+     }
+     else{
+         return res.redirect('users/sign-in');
+     }
+       
  }
+
 
 
  // render the sign up page
@@ -58,5 +75,44 @@ module.exports.signUp = function(req, res){
   
   // sign in and create a session for the user
   module.exports.createSession = function(req, res){
-      // TODO later
+    //steps to authenticate
+    //find the user
+    User.findOne({email:req.body.email})
+    .then((user)=>{
+         //handle user found
+         if(user){
+
+              //handle password which doesn't match
+              if(user.password != req.body.password){
+
+                 return res.redirect('back');
+              }
+              //handle session creation
+
+              res.cookie('user_id',user.id);
+              return res.redirect('/users/profile');
+         }
+         else{
+
+             //handle user not found
+               return res.redirect('back');
+         }
+
+    })
+    .catch((err)=>{
+        console.log('error in finding user in signing in',err);
+        return;
+    })
+   }
+
+   //creating sign-out  function
+
+   module.exports.signOut = function(req, res) {
+    const userId = req.cookies.user_id;
+  
+    // Clear the user_id cookie
+    res.clearCookie('user_id');
+  
+    // Redirect the user to the sign-in page
+    return res.redirect('sign-in');
   }

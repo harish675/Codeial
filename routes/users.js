@@ -12,7 +12,8 @@ const router = express.Router();
 
 
  router.post('/create', usersController.create);
- 
+ router.post('/create-session',usersController.createSession);
+ router.get('/sign-out',usersController.signOut);
 
 
  module.exports=router;
