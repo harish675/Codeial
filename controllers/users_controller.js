@@ -72,3 +72,18 @@ module.exports.signUp = function(req, res){
        
       return res.redirect('/');
   }
+
+  //create sign-out controller
+
+  module.exports.destroySession = function(req,res,next){
+
+     req.logout(function(err){
+          if(err){
+              return next(err);
+          }
+
+          return res.redirect('/')
+     });
+     
+
+  }
