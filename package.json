@@ -21,6 +21,7 @@
     "express-session": "^1.17.3",
     "mongo-store": "^0.0.2",
     "mongoose": "^7.3.1",
+    "node-sass": "^9.0.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
   }
