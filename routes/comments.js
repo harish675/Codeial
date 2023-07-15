@@ -5,7 +5,7 @@ const passport = require('passport');
 
 const commentController = require('../controllers/comments_controller');
 
-
+console.log("comments router called");
 router.post('/create',passport.checkAuthentication,commentController.create);
 
 
