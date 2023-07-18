@@ -1,10 +1,26 @@
 const User = require('../models/user');
 //create controller for the profile
 module.exports.profile = function (req,res){
-     
-      res.render('profile',{         
-            title : "Codeial | profile"
-      });
+    console.log(req.params.id);
+      User.findById(req.params.id)
+
+        .then((user)=>{
+             if(user){
+             res.render('profile',{         
+             title : "Codeial | profile",
+             profile_user:user,
+          });
+        }
+        else{
+           console.log("user is not found in the list");
+           return redirect('back');
+        }
+      })
+         .catch((err)=>{
+            console.log("error to finding users id");
+            return res.redirect('back');
+       })
+    
  }
 
 
