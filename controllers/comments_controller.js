@@ -38,3 +38,37 @@ module.exports.create = function (req, res) {
       return res.redirect('back');
     });
 };
+
+module.exports.destroy = function(req,res){
+ 
+  Comment.findById(req.params.id)
+  .then((comment) => {
+    if (comment.user == req.user.id) {
+      let postID = comment.post;
+
+      Comment.findByIdAndRemove(req.params.id)
+        .then(() => {
+          Post.findByIdAndUpdate(postID, { $pull: { comments: [req.params.id] } })
+            .then(() => {
+              return res.redirect('back');
+            })
+            .catch((err) => {
+              console.log("Error updating post with comment removal:", err);
+              return res.redirect('back');
+            });
+        })
+        .catch((err) => {
+          console.log("Error removing comment:", err);
+          return res.redirect('back');
+        });
+    } else {
+      return res.redirect('back');
+    }
+  })
+  .catch((err) => {
+    console.log("Error finding comment:", err);
+    return res.redirect('back');
+  });
+
+
+};
