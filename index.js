@@ -4,13 +4,14 @@ const app =express();
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose') ;
+
 //used for session cookie
 const session = require('express-session');
 const passport =require('passport');
 const passportLocal = require('./config/passport-local-strategy');
-//
-const MongoStore = require('connect-mongo');
 
+const MongoStore = require('connect-mongo');
+//need to include later on 
 //saas middleware
 // const sassMiddleware = require('node-sass');
 
@@ -23,6 +24,7 @@ const MongoStore = require('connect-mongo');
 //     prefix:'/css'
 //    }
 // ));
+
 app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static('./assets'));
@@ -41,15 +43,14 @@ app.set('views','./views');
 // create a new instance of connect-mongo and pass the session object
 const store = MongoStore.create({
    mongoUrl: 'mongodb://127.0.0.1/codeial_development',
-   // ttl: 1000 * 60 * 60, // Session TTL (optional)
  });
- 
- // handle initial error from connect-mongo
  store.on('error', function (error) {
+   // handle initial error from connect-mongo
    console.log('Error in connect-mongo:', error);
  });
 
- // session middleware configuration
+
+// session middleware configuration
 app.use(
    session({
      name: 'codeial',

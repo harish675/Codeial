@@ -1,10 +1,14 @@
-<h1>Codeial <%= title %></h1>
+<link rel="stylesheet" href="/css/home.css">
+<section id="main-container">
 
- 
-<section id="feed-posts">
+    <div id="news-feed">
+  
+         <p>This news feed tab</p>
+    </div>
 
-        <h4>Posts</h4>
-        <% if( locals.user){ %>
+   <div id="post-container">
+        <h1>Posts</h1>
+        <% if(locals.user){ %>
         <form action="/post/create" id="new-post-from" method="POST">
            <textarea name="content" cols="30" rows="3" placeholder="Type Here....."></textarea>  
            <input type="submit" value="Post"> 
@@ -12,14 +16,19 @@
 
        <% } %>
 
-        <div id="post dispaly">
+            <div id="post-display">
+
                 <ul> 
                         <% posts.forEach((post) => { %>
                                 <li>
-                                  <div id="">
-                                  <h3><%= post.title %></h3>
+                                  <div id="post-content">
+                                    <% if (locals.user && locals.user.id == post.user.id){ %>
+                                  <small>
+                                     <a href="/post/destroy/<%=post._id%>">Delete</a>
+                                  </small>
+                                  <% } %>
+                                  <p> <%= post.user.name %></p>
                                   <p><%= post.content %></p>
-                                  <p>Created by: <%= post.user.name %></p>
                                   <!-- Access user information -->
                                   </div>
                                   <div class="post-commnets">
@@ -50,12 +59,11 @@
                                 </li>
                           <% }); %>
                 </ul>
-               
-                          
-                        
-                
-                 
+            </div>
+   </div>
 
-        </div>
+   <div id="people-container">
+
+   </div>
 </section>
 
