@@ -16,10 +16,9 @@ module.exports.home =function(req,res){
           //To Get all users in the home page
           User.find({})
             .then((users)=>{
-               
-                return  res.render('home',{
-                      title:'Home',
-                      posts:posts,
+                  return  res.render('home',{
+                       title:'Home',
+                       posts:posts,
                      all_users:users,
                    });
                })

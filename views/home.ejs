@@ -1,44 +1,47 @@
 <link rel="stylesheet" href="/css/home.css">
-<section id="main-container">
 
-    <div id="news-feed">
-  
-         <p>This news feed tab</p>
-    </div>
+<div id="home-container">
+      
+   <section id="news-container">
+     <h1>News Feed</h1>
+   </section>
 
-   <div id="post-container">
-        <h1>Posts</h1>
-        <% if(locals.user){ %>
-        <form action="/post/create" id="new-post-from" method="POST">
-           <textarea name="content" cols="30" rows="3" placeholder="Type Here....."></textarea>  
-           <input type="submit" value="Post"> 
-        </form>
-
-       <% } %>
-
-            <div id="post-display">
-
-                <ul> 
-                        <% posts.forEach((post) => { %>
-                                
-                           <%- include('_post',{post: post });%>
-
-                        <% }); %>
-                </ul>
-            </div>
-   </div>
-
-   <div id="people-container">
-
-   </div>
-</section>
-
-<section id="user-frineds">
-   <h4>Friends</h4>
-   <% for(u of all_users){%>
-         <p>
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-         </p>
-  <% } %>
-</section>
-
+   <section id="main-container">
+      <div id="post-container">
+           <h1>Posts</h1>
+           <% if(locals.user){ %>
+           <form action="/post/create" id="new-post-from" method="POST">
+              <textarea name="content" cols="30" rows="3" placeholder="Type Here....."></textarea>  
+              <input type="submit" value="Post"> 
+           </form>
+   
+          <% } %>
+   
+               <div id="post-display">
+   
+                   <ul> 
+                           <% posts.forEach((post) => { %>
+                                   
+                              <%- include('_post',{post: post });%>
+   
+                           <% }); %>
+                   </ul>
+               </div>
+      </div>
+   
+      <div id="people-container">
+   
+      </div>
+   </section>
+   
+   <section id="friends-container">
+      <h1>Friends</h1>
+      <% for(u of all_users){%>
+            <p>
+               <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+            </p>
+     <% } %>
+   </section>
+   
+    
+</div>

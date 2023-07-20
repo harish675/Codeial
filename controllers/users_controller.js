@@ -23,6 +23,27 @@ module.exports.profile = function (req,res){
     
  }
 
+ module.exports.update = function(req,res){
+       if(req.user.id == req.params.id){
+           User.findByIdAndUpdate(req.params.id,req.body)
+           .then(()=>{
+              
+            console.log("Updated Successfully....");
+             return res.redirect('back');
+
+           })
+           .catch((err)=>{
+
+             console.log("Error in finding id and update");
+             return res.redirect('back');
+           })
+       }
+       else{
+          
+           return res.status(401).send('Unauthorized');
+       }
+
+ } 
 
  // render the sign up page
 module.exports.signUp = function(req, res){
