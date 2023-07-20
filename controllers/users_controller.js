@@ -12,6 +12,7 @@ module.exports.profile = async function (req,res){
            });
          }
           else{
+
            console.log("user is not found in the list");
            return redirect('back');
         }
@@ -27,14 +28,16 @@ module.exports.update = async function(req,res){
       try{
           if(req.user.id == req.params.id){
             await User.findByIdAndUpdate(req.params.id,req.body);
+            req.flash('success','profile details updated successfully');
               return res.redirect('back');
           }
         else{
+            req.flash('error','error in updating');
             return res.status(401).send('Unauthorized');
          }       
       }
       catch(err){
-          console.log("Error ",err);
+         req.flash('success','profile does not update');
           return;
       }
 
@@ -78,15 +81,17 @@ module.exports.signUp = function(req, res){
          let user = await User.findOne({email :req.body.email})
              if(!user){
                 await User.create(req.body);  
+                req.flash('success','User successfully created');
                 return res.redirect('/users/sign-in');
               }
             else{
-               return res.redirect('back');
+              req.flash('email id all ready present');
+              return res.redirect('/users/sign-in');
              }
       }
       catch{
-              console.log("Error",err);
-              return;   
+              req.flash('error','user does not created');
+              return res.redirect('back');
        }
 }
   
