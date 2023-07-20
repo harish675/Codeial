@@ -4,14 +4,12 @@
       display: flex;
 
 }
-#news-container{
-      
+#news-container{     
      width: 20%;
      height: 100%;
      padding: 10px;
 }
-#main-container{
-      
+#main-container{     
       width: 65%;
       height: 100%;
       padding: 10px;

@@ -1,59 +1,49 @@
 const Post = require('../models/post');
 const Comment = require('../models/comments');
 
-module.exports.create = function(req,res){
-   
-    Post.create({
-         content :req.body.content,
-         user:req.user._id,
-    })
-    .then((content)=>{
+module.exports.create = async function(req,res){
     
+    try{
 
-           return res.redirect('back');
-         
-    })
-    .catch((err)=>{
-        console.log("Error while saving the post");
+        await Post.create({
+
+            content :req.body.content,
+            user:req.user._id,
+
+       });
+   
         return res.redirect('back');
-    })
+      
+    }catch(err){
+       console.log("error in crating post",err);
+       return; 
+    }
+   
 };
 
 
-module.exports.destroy = function(req,res){
-     
-    const postId = req.params.id;
-    console.log("*******************");
-    console.log(req.body);
-    console.log("*******************");
-    console.log(postId);
+module.exports.destroy = async function(req,res){
  
-      Post.findByIdAndRemove(postId)
-      .then((postDelete)=>{
+     const postId = req.params.id;
 
+    try{
+ 
+       let postDelete = await Post.findByIdAndRemove(postId);
+    
         if(postDelete){
             //if post is found delete all comments associated with comments
-
-            Comment.deleteMany({post:postId})
-            .then(()=>{
-                 return res.redirect('back');
-            })
-            .catch((err)=>{
-                 console.log("error in deleting the comments",err);
-                 return res.redirect('back');
-            })
+             await Comment.deleteMany({post:postId})
+             return res.redirect('back');
         }
         else{
             console.log("error in finding post",err);
             return res.redirect('back');
         }
-      }) 
-      .catch((err)=>{   
-        console.log("Error in finding Post",err);
-        return res.redirect('back');
-      })
-    
 
+    }catch(err){
+       console.log('Error',err);
+       return;
+    }
     // Post.findById(req.params.id)
     // .then((post)=>{
          
