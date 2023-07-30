@@ -9,17 +9,28 @@
 
                $.ajax({
                      type: 'post',
-                     url : '/post/create',
-                       //serialize convert hour data into json
+                     url :'/post/create',
+                    //serialize convert hour data into json
                      data:newPostFrom.serialize(),
                      success:function(data){
                            console.log(data);
+                           
+                              let newPost = newPostDom(data.data.post);
+                              $('#post-display>ul').prepend(newPost);
+                              deletePost($(' .delete-post-button',newPost));
 
-                         let newPost = newPostDom(data.data.post);
-                         $('#post-display>ul').prepend(newPost);
-
-                         deletePost($(' .delete-post-button',newPost));
-                       },
+                              //call the create comment class
+                              new PostComments(data.data.post._id);
+                              new Noty({
+                                   
+                                   theme:'relax',
+                                   text:'Post published',
+                                   type:'success',
+                                   layout:'topRight',
+                                   timeout:1500
+                              }).show();
+                      
+                        },
                        error:function(error){
                          console.log(error.responseText);
                       }
@@ -43,23 +54,22 @@
                   <p>${post.content}</p>
                   <!-- Access user information -->
                   </div>
-                  <div class="post-commnets">
-                     
-              
-                            <form action="/comments/create" method="POST">
-                                <input type="text" name="content" placeholder="Type Here to add comment...">
-                                <input type="hidden" name="post" value="${post._id}">
-                                <input type="submit" value="Add Comment">
+                  <!-- display comments of the Post -->
+                  <div class="post-comments">
+          
+                            <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST">
+                            <input type="text" name="content" placeholder="Type Here to add comment..." required>
+                            <input type="hidden" name="post" value="${ post._id }" >
+                            <input type="submit" value="Add Comment">
                             </form>
               
-                      <div class="post-comments-list">
-                          <ul id="post-commnets-${post._id}">
+                            <div class="post-comments-list">
+                              <ul id="post-comments-${post._id}">
                             
-                          </ul>
+                            </ul>
                       </div>
                   </div>
-                </li>
-              `)
+                </li>`)
  }
 
 //method for deleting the post from DOM
@@ -72,14 +82,23 @@ let deletePost = function(deleteLink){
            type :'get',
            url:$(deleteLink).prop('href'),
            success:function(data){
-               $(`#post-${(data.data.post_id)}`).remove();   
+               $(`#post-${(data.data.post_id)}`).remove(); 
+               
+               new Noty({
+                   
+                    theme:'relax',
+                    text:"Post Deleted",
+                    type:"Success",
+                    layout:"topRight",
+                    timeout:1500
+               }).show();
            },
            error:function(error){
               console.log(error.responseText);
            }
-      })
+      });
      
-   })
+   });
 }
 
 
