@@ -3,21 +3,35 @@ const User = require('../models/user');
 module.exports.profile = async function (req,res){
     console.log(req.params.id);
       try{
-         let user = User.findById(req.params.id);
+         let user = User.findById(req.params.id)
+          .then((user)=>{
+            console.log('profile user id:',user.id);
+              res.render('profile',{         
+                   title : "Codeial | profile",
+                   profile_user:user,
+              });
 
-          if(user){
-             res.render('profile',{         
-             title : "Codeial | profile",
-             profile_user:user,
-           });
-         }
-          else{
+          })
+          .catch((err)=>{
+                console.log("Error in finding the user");
+                return res.redirect('back');
+          })
+        //   console.log('******',req.params.id);  
+        //   console.log('profile user id:',user.id);
+        //   console.log('user',user.name);
+        //   if(user){
+        //      res.render('profile',{         
+        //      title : "Codeial | profile",
+        //      profile_user:user,
+        //    });
+        //  }
+        //   else{
 
-           console.log("user is not found in the list");
-           return redirect('back');
-        }
-      }
-      catch(err){
+        //    console.log("user is not found in the list");
+        //    return redirect('back');
+        // }
+      
+        }catch(err){
             console.log('Error',err);
             return;
       }
@@ -25,21 +39,52 @@ module.exports.profile = async function (req,res){
 }
 module.exports.update = async function(req,res){
       
+      // try{
+      //     if(req.user.id == req.params.id){
+      //       await User.findByIdAndUpdate(req.params.id,req.body);
+      //       req.flash('success','profile details updated successfully');
+      //         return res.redirect('back');
+      //     }
+      //   else{
+      //       req.flash('error','error in updating');
+      //       return res.status(401).send('Unauthorized');
+      //    }       
+      // }
+      // catch(err){
+      //    req.flash('success','profile does not update');
+      //     return;
+      // }
+
       try{
-          if(req.user.id == req.params.id){
-            await User.findByIdAndUpdate(req.params.id,req.body);
-            req.flash('success','profile details updated successfully');
-              return res.redirect('back');
-          }
-        else{
-            req.flash('error','error in updating');
-            return res.status(401).send('Unauthorized');
-         }       
-      }
-      catch(err){
-         req.flash('success','profile does not update');
-          return;
-      }
+        if(req.user.id == req.params.id){
+          let user =await User.findById(req.params.id);
+          User.uploadedAvatar(req,res,function(err){
+             if(err){
+                 console.log("****Multer Error******",err);
+             }
+             console.log(req.file);
+             user.name = req.body.name;
+             user.email=req.body.email;
+
+             if(req.file){
+                //this is saving the path of the uploaded file into the avatar filed in the user
+                user.avatar = User.avatarPath+'/'+req.file.filename;
+             }
+             user.save();
+             return res.redirect('back');
+          })
+        }
+      else{
+          req.flash('error','error in updating');
+          return res.status(401).send('Unauthorized');
+       }       
+    }
+    catch(err){
+       req.flash('success','profile does not update');
+        return;
+    }
+
+
 
  } 
 
