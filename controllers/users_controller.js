@@ -63,7 +63,7 @@ module.exports.update = async function(req,res){
           User.uploadedAvatar(req,res,function(err){
              if(err){
                  console.log("****Multer Error******",err);
-             }
+              }
              console.log(req.file);
              user.name = req.body.name;
              user.email=req.body.email;
@@ -90,9 +90,6 @@ module.exports.update = async function(req,res){
        req.flash('success','profile does not update');
         return;
     }
-
-
-
  } 
 
  // render the sign up page
