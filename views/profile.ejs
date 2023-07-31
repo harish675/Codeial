@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="/css/user_profile.css">
           
 
- <h1>Codeial <%=title%></h1>
- 
+
+<img src="<%=user.avatar%>" alt="<%=user.name%>" width="100">
  
 
  <% if(user.id == profile_user.id){%>
@@ -17,9 +17,6 @@
      
  <%}else{%>
    <!-- else only show the profile info -->
-    <p><%= profile_user.id %></p>
-    <p>********************8</p>
-    <p><%= user.id %></p>
     <p><%= profile_user.name %></p>
     <p><%= profile_user.email %></p>
  
