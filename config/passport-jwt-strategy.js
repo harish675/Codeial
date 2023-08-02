@@ -5,7 +5,6 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 const User = require('../models/user');
 let opts ={
-
     jwtFromRequest :ExtractJWT.fromAuthHeaderAsBearerToken,
     secretOrKey : 'codeial',
 }
@@ -26,9 +25,7 @@ passport.use(new JWTStrategy(opts,function(jwtPayLoad,done){
      .catch((err)=>{
        console.log("Error in finding User in JWT",);
        return;
-     });
-       
-       
+     });     
 }));
 
 module.exports = passport;
