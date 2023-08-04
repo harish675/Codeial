@@ -6,35 +6,28 @@
      <h1>News Feed</h1>
    </section>
 
-   <section id="main-container">
-      <div id="post-container">
+   <section id="feed-posts">
            <h1>Posts</h1>
            <% if(locals.user){ %>
-           <form action="/post/create" id="new-post-from" method="POST">
+           <form action="/post/create" id="new-post-form" method="POST">
               <textarea name="content" cols="30" rows="3" placeholder="Type Here....."></textarea>  
               <input type="submit" value="Post"> 
            </form>
    
           <% } %>
    
-               <div id="post-display">
+               <div id="posts-list-container">
    
-                   <ul> 
-                           <% posts.forEach((post) => { %>
-                                   
-                              <%- include('_post',{post: post });%>
-   
-                           <% }); %>
+                  <ul>
+                     <% posts.forEach(function(post){ %>
+                           <%- include('_post', {post: post}); %>
+                      <% }); %>
+                      
                    </ul>
                </div>
-      </div>
-   
-      <div id="people-container">
-   
-      </div>
    </section>
    
-   <section id="friends-container">
+   <section id="user-friends">
       <h1>Friends</h1>
       <% for(u of all_users){%>
             <p>
@@ -45,4 +38,7 @@
    
     
 </div>
+<!-- importing this script for creating the comments -->
+<script src="/js/post_comment.js" ></script>
 <script src="/js/home_post.js"></script>
+

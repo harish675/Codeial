@@ -1,9 +1,11 @@
 const User = require('../models/user');
 const Post = require('../models/post');
+
+
 module.exports.home = async function(req,res){
 
       try{
-
+             // populate the user of each post
             let posts =  await Post.find({})
             .sort('-createdAt')
             .populate('user') //populate user filed
@@ -15,7 +17,6 @@ module.exports.home = async function(req,res){
             });
 
             let users= await User.find({});
-      
             return  res.render('home',{
                  title:'Home',
                  posts:posts,

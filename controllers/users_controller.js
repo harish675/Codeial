@@ -57,40 +57,48 @@ module.exports.update = async function(req,res){
       //     return;
       // }
 
-      try{
-        if(req.user.id == req.params.id){
-          let user =await User.findById(req.params.id);
-          User.uploadedAvatar(req,res,function(err){
-             if(err){
-                 console.log("****Multer Error******",err);
-              }
-             console.log(req.file);
-             user.name = req.body.name;
-             user.email=req.body.email;
-            
-             if(req.file){
-                 
-                  if (fs.existsSync(path.join(__dirname, '..', user.avatar))) {
-                      fs.unlinkSync(path.join(__dirname, '..', user.avatar));
-                  }
+
+      if(req.user.id == req.params.id){
+                try{
                 
-                //this is saving the path of the uploaded file into the avatar filed in the user
-                user.avatar = User.avatarPath+'/'+req.file.filename;
-             }
-             user.save();
-             return res.redirect('back');
-          })
-        }
+                  let user =await User.findById(req.params.id);
+                  User.uploadedAvatar(req,res,function(err){
+                        if(err){
+                            console.log("****Multer Error******",err);
+                          }
+                
+                  user.name = req.body.name;
+                  user.email=req.body.email;
+                    
+                  if(req.file){
+                      
+                          if (fs.existsSync(path.join(__dirname, '..', user.avatar))) {
+                              fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                          }
+                      
+                      //this is saving the path of the uploaded file into the avatar filed in the user
+                      user.avatar = User.avatarPath+'/'+req.file.filename;
+                  }
+                  user.save();
+                  return res.redirect('back');
+                  })
+                }
+                catch(err){
+                  req.flash('success','profile does not update');
+                    return;
+                }
+           
+      }
       else{
-          req.flash('error','error in updating');
-          return res.status(401).send('Unauthorized');
-       }       
-    }
-    catch(err){
-       req.flash('success','profile does not update');
-        return;
-    }
- } 
+        req.flash('error','error in updating');
+        return res.status(401).send('Unauthorized');
+      }  
+            
+        
+      }
+
+      
+  
 
  // render the sign up page
 module.exports.signUp = function(req, res){
