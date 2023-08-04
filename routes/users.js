@@ -22,5 +22,12 @@
 
   router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
   router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/users/sign-in'}),usersController.createSession);
+<<<<<<< HEAD
 
+=======
+  router.get('/auth/github',passport.authenticate('github',{scope:['profile','email']}));
+  router.get('/auth/github/callback',passport.authenticate('github',{failureRedirect:'users/sign-in'}),usersController.createSession);
+
+  
+>>>>>>> 99d2f9befeffe3f7dd7b3492191a5d6353b9d0da
  module.exports=router;

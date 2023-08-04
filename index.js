@@ -11,7 +11,11 @@ const passport =require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const passportJwt = require('./config/passport-jwt-strategy');
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
+<<<<<<< HEAD
 
+=======
+const passportGithub = require('./config/passport-github-oauth2-strategy');
+>>>>>>> 99d2f9befeffe3f7dd7b3492191a5d6353b9d0da
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const customMiddleware = require('./config/middleware');
