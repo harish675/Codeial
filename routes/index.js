@@ -1,6 +1,6 @@
 const express = require('express');
 const homeController =require('../controllers/home_controller');
-const { route } = require('./users');
+
 const router = express.Router();
 
 console.log("router loaded");
