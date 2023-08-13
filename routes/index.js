@@ -8,11 +8,10 @@ console.log("router loaded");
 router.get('/',homeController.home);
 router.use('/users',require('./users'));
 router.use('/post',require('./post'));
-console.log("index router are called");
 router.use('/comments',require('./comments'));
 
 router.use('/api',require('./api'));
-
+router.use('/likes',require('./likes'));
 
 //for further routes,access from hear
 

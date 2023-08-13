@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comments');
-
+const Like = require('../models/like');
 module.exports.create = async function(req,res){
     
     try{
@@ -45,8 +45,22 @@ module.exports.destroy = async function(req,res){
        let postDelete = await Post.findByIdAndRemove(postId);
     
         if(postDelete){
+            //if post is delete then delete the all associated likes for the post and all its comments likes too
+            
+            await Like.deleteMany({
+                 likeable:post,
+                 onModel:'Post'
+            });
+
+            await Like.deleteMany({_id:{
+                 $in:post.comments
+            }});
+
+
             //if post is found delete all comments associated with comments
              await Comment.deleteMany({post:postId});
+
+           
              
              if(req.xhr){
                  
@@ -67,26 +81,7 @@ module.exports.destroy = async function(req,res){
         }
 
     }catch(err){
-       req,flash('error','Post does not deleted');
+       req.flash('error','Post does not deleted');
        return res.redirect('back');
-    }
-    // Post.findById(req.params.id)
-    // .then((post)=>{
-         
-    //      if(post.user == req.user.id){
-            
-    //         Post.remove();   
-    //         Comment.deleteMany({post:req.params.id},function(err){
-    //              return res.redirect('back');
-    //         });
-    //      }
-    //      else{
-    //          return res.redirect('back');
-    //      };     
-    // })
-    // .catch ((err)=>{
-    //      console.log("Error in finding the id",err);
-    //      return res.redirect('back'); 
-    // })
-        
+    }     
 };
