@@ -30,8 +30,13 @@
       <h1>Friends</h1>
       <% for(u of all_users){%>
             <p>
-               <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+               <a href="/users/profile/<%= u.id %>"><%= u.name %></a>          
             </p>
+            <div id="friend-req">
+               
+                <a class="friend-req-toggle" href="/users/add-friend/?rId<%=u.id%>&sId=<%=locals.user._id%>" data-receiver-id="<%= u.id %>" data-sender-id="<%= locals.user._id %>">AddFriend</a>
+
+            </div>
      <% } %>
    </section>
    
@@ -40,6 +45,7 @@
 <!-- importing this script for creating the comments -->
 <script src="/js/post_comment.js" ></script>
 <script src="/js/home_post.js"></script>
+<script src="/js/friend-req.js"></script>
 
 <!--  import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
 <script src="/js/toggle_likes.js"></script>

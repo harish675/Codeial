@@ -1,6 +1,7 @@
  const express =  require('express');
  const passport = require('passport');
  const usersController = require('../controllers/users_controller');
+ const friendshipController = require('../controllers/friendship_controller');
  const router = express.Router();
 
 
@@ -25,6 +26,8 @@
 
   router.get('/auth/github',passport.authenticate('github',{scope:['profile','email']}));
   router.get('/auth/github/callback',passport.authenticate('github',{failureRedirect:'users/sign-in'}),usersController.createSession);
-
+ 
+ //sending friend request route
+  router.post('/add-friend',friendshipController.addFriend);
   
  module.exports=router;
