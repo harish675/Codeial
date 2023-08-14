@@ -1,5 +1,5 @@
 
-
+<link rel="stylesheet" href="/css/home.css">
 <div id="home-container">
       
    <section id="news-container">
@@ -27,12 +27,21 @@
    </section>
    
    <section id="user-friends">
-      <h1>Friends</h1>
-      <% for(u of all_users){%>
-            <p>
-               <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-            </p>
-     <% } %>
+      <div id="friendship-list">
+         <h3>Friends</h3>
+      </div>
+      <div id="all_users">
+         <h3> People you Know</h3>
+         <% for(u of all_users){%>
+               <p>
+                  <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                  
+                  <small>
+                     <a href="/users/Addfriend/?rId=<%=u.id%>&sId=<%=locals.user._id%>">Add friend new </a>
+                  </small>
+               </p>
+        <% } %>
+      </div>
    </section>
    
     

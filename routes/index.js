@@ -1,6 +1,7 @@
 const express = require('express');
 const homeController =require('../controllers/home_controller');
 
+
 const router = express.Router();
 
 console.log("router loaded");
@@ -12,6 +13,7 @@ router.use('/comments',require('./comments'));
 
 router.use('/api',require('./api'));
 router.use('/likes',require('./likes'));
+router.use('/friends',require('./friend'));
 
 //for further routes,access from hear
 

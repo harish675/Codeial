@@ -9,16 +9,39 @@
      height: 100%;
      padding: 10px;
 }
-#main-container{     
-      width: 65%;
-      height: 100%;
+#feed-posts{     
+      width: 60%;
+      height:100%;
       padding: 10px;
       border-left: 2px solid lightgray;
-      background-color: coral;
+      /* background-color: coral; */
 }
-#friends-container{
-     width: 15%;
+#user-friends{
+     width: 20%;
      height: 100%;
      padding: 10px;
      border-left: 2px solid lightgrey;    
 }
+
+#user-friends div:first-child{
+       
+       width: 100%;
+       height: 45%;
+       /* background-color: gray; */
+
+}
+#user-friends div:nth-child(2){
+        
+       width: 100%;
+       height: 45%;
+       /* background-color: aqua; */;
+
+}
+
+#user-friends div:nth-child(2) a{   
+      
+      font-size: 15px;
+       color: red;
+       
+}
+
