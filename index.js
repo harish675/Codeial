@@ -1,10 +1,12 @@
 const express = require('express');
+const env = require('./config/environment');
+const morgan =require('morgan');
 const cookieParser = require('cookie-parser');
 const app =express();
+require('./config/view-helpers')(app);
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose') ;
-
 //used for session cookie
 const session = require('express-session');
 const passport =require('passport');
@@ -19,6 +21,7 @@ const passportGithub = require('./config/passport-github-oauth2-strategy');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const customMiddleware = require('./config/middleware');
+
 //need to include later on 
 //saas middleware
 // const sassMiddleware = require('node-sass');
@@ -62,7 +65,7 @@ const store = MongoStore.create({
 app.use(
    session({
      name: 'codeial',
-     secret: 'something',
+     secret:env.session_cookie_key,
      saveUninitialized: false,
      resave: false,
      cookie: {
@@ -104,6 +107,9 @@ app.use(customMiddleware.setFlash);
 app.use('/',require('./routes'));
 //make the uploads path available to the browser
 app.use('/uploads',express.static(__dirname+'/uploads'));
+
+app.use(morgan(env.morgan.mode,env.morgan.Options));
+
 
 app.listen(port,function(err){
 
