@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const app =express();
 const port = 8000;
+const cors = require('cors'); // Import the cors middleware
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose') ;
 
@@ -19,6 +20,12 @@ const passportGithub = require('./config/passport-github-oauth2-strategy');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const customMiddleware = require('./config/middleware');
+
+//set up the chat server to be used with socket.io 
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(3000);
+console.log('chat server is listening on port 5000');
 //need to include later on 
 //saas middleware
 // const sassMiddleware = require('node-sass');
@@ -32,7 +39,8 @@ const customMiddleware = require('./config/middleware');
 //     prefix:'/css'
 //    }
 // ));
-
+// Enable CORS for all routes using the cors middleware
+app.use(cors());
 app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static('./assets'));
