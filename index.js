@@ -25,7 +25,7 @@ const customMiddleware = require('./config/middleware');
 const chatServer = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(3000);
-console.log('chat server is listening on port 5000');
+console.log('chat server is listening on port 3000');
 //need to include later on 
 //saas middleware
 // const sassMiddleware = require('node-sass');
